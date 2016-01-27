@@ -309,7 +309,7 @@ echo "[*] link ffmpeg"
 echo "--------------------"
 echo $FF_EXTRA_LDFLAGS
 $CC -lm -lz -shared --sysroot=$FF_SYSROOT -Wl,--no-undefined -Wl,-z,noexecstack $FF_EXTRA_LDFLAGS \
-    -Wl,-soname,libijkffmpeg.so \
+    -Wl,-soname,libijkffmpeg1.so \
     compat/*.o \
     libavutil/*.o \
     libavcodec/*.o \
@@ -318,7 +318,7 @@ $CC -lm -lz -shared --sysroot=$FF_SYSROOT -Wl,--no-undefined -Wl,-z,noexecstack 
     libswscale/*.o \
     $FF_ASM_OBJ_DIR \
     $FF_DEP_LIBS \
-    -o $FF_PREFIX/libijkffmpeg.so
+    -o $FF_PREFIX/libijkffmpeg1.so
 
 mysedi() {
     f=$1
@@ -336,7 +336,7 @@ echo "--------------------"
 rm -rf $FF_PREFIX/shared
 mkdir -p $FF_PREFIX/shared/lib/pkgconfig
 ln -s $FF_PREFIX/include $FF_PREFIX/shared/include
-ln -s $FF_PREFIX/libijkffmpeg.so $FF_PREFIX/shared/lib/libijkffmpeg.so
+ln -s $FF_PREFIX/libijkffmpeg1.so $FF_PREFIX/shared/lib/libijkffmpeg1.so
 cp $FF_PREFIX/lib/pkgconfig/*.pc $FF_PREFIX/shared/lib/pkgconfig
 for f in $FF_PREFIX/lib/pkgconfig/*.pc; do
     # in case empty dir
@@ -347,9 +347,9 @@ for f in $FF_PREFIX/lib/pkgconfig/*.pc; do
     f=$FF_PREFIX/shared/lib/pkgconfig/`basename $f`
     # OSX sed doesn't have in-place(-i)
     mysedi $f 's/\/output/\/output\/shared/g'
-    mysedi $f 's/-lavcodec/-lijkffmpeg/g'
-    mysedi $f 's/-lavformat/-lijkffmpeg/g'
-    mysedi $f 's/-lavutil/-lijkffmpeg/g'
-    mysedi $f 's/-lswresample/-lijkffmpeg/g'
-    mysedi $f 's/-lswscale/-lijkffmpeg/g'
+    mysedi $f 's/-lavcodec/-lijkffmpeg1/g'
+    mysedi $f 's/-lavformat/-lijkffmpeg1/g'
+    mysedi $f 's/-lavutil/-lijkffmpeg1/g'
+    mysedi $f 's/-lswresample/-lijkffmpeg1/g'
+    mysedi $f 's/-lswscale/-lijkffmpeg1/g'
 done
